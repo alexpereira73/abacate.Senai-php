@@ -1,0 +1,41 @@
+dummydeclaration { padding-left: 4em; }
+tab { padding-left: 2em; }
+
+body {
+	font-family: Courier, "Courier New";
+	font-size: 13px;
+	color: #000000;
+}
+
+h1 {
+	font-family: "Didact Gothic";
+	font-size: 22px;
+	color: #069;
+	border-bottom: 1px #999 dashed;
+}
+
+h2 {
+	font-size: 18px;
+	color: #069;
+}
+
+input, textarea {
+	font-family: "Georgia, "Times New Roman", Times, serif";
+	font-size: 13px;
+	padding: 5px;
+	border: 1px #999 solid;
+	background:  #F9F9F9;
+}
+
+select {
+	font-family: "Wild Words Roman BR";
+	font-size: 10px;
+	padding: 5px;
+}
+
+errorMessages{
+	font-family: "Wild Words Roman BR";
+	font-size: 10px;
+	padding: 5px;
+	color: #E81E17;
+}
