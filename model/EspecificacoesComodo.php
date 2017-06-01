@@ -18,8 +18,9 @@
 			echo "Id do comodo: ".$this -> idComodo."<br/>";
 			echo "Area do comodo: ".$this -> area."<br/>";
 			echo "Perimetro do comodo: ".$this -> perimetro."<br/>";
-			echo "Tipo de Tomadas no comodo: ".$this -> tomadasTipo."<br/>";
-			echo "Quantidade de Tomadas de cada tipo: ".$this -> quantidadeTomadasTipo."<br/>";
+			for($positionSearch = 0; $positionSearch < $this -> quantidadeTomadasTipo -> size(); $positionSearch += 1){
+				echo "Quantidade de Tomadas para ".$this -> tomadasTipo -> get($positionSearch).": ".$this -> quantidadeTomadasTipo -> get($positionSearch)."<br/>";
+			}
 		}
 
 		public function getIdComodo(){

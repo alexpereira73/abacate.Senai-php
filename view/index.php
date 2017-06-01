@@ -34,42 +34,36 @@
 		<tab>Perímetro:</tab><input type="text" name="perimetro" size="1">
 		<?php session_start();
 			if(!isset($_SESSION['adicionarTomada']))
-				$_SESSION['adicionarTomada'] = 0;
+				$_SESSION['adicionarTomada'] = 1;
 			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
 				$_SESSION['valoresPreviosQuantidadeTomada'][0] = 1;
 				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
 			}
 
-			$controlePosicao = 0;
-			if($_SESSION['adicionarTomada'] > 0)
+			$controlePosicao = 1;
+			if($_SESSION['adicionarTomada'] > 1)
 				$controlePosicao = $_SESSION['adicionarTomada'];
 			
 		?>
 
-		<?php for ($position = 0; $position < $controlePosicao + 1; $position += 1): ?>
-			<br/>Tomada de uso específico:<select name="tomadas">	<!-- [<?php $position ?>] -->
+		<?php for ($position = 0; $position < $controlePosicao; $position += 1): ?>
+			<br/>Tomada de uso específico:<select name="tomadas[]">
 				<option value="Ferro de Passar"
-				<?= ($_SESSION['valoresPreviosTipoTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] == "Ferro de Passar") ? "selected" : "" ?>
-				 > Ferro de Passar </option>
+				<?= ($_SESSION['valoresPreviosTipoTomada'][$position] == "Ferro de Passar") ? "selected" : "" ?> > Ferro de Passar </option>
 				<option value="Chuveiro"
-				<?= ($_SESSION['valoresPreviosTipoTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] == "Chuveiro") ? "selected" : "" ?>
-				 > Chuveiro </option>
+				<?= ($_SESSION['valoresPreviosTipoTomada'][$position] == "Chuveiro") ? "selected" : "" ?> > Chuveiro </option>
 				<option value="Maquina de Lavar"
-				<?= ($_SESSION['valoresPreviosTipoTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] == "Maquina de Lavar") ? "selected" : "" ?>
-				 > Máquina de Lavar </option>
+				<?= ($_SESSION['valoresPreviosTipoTomada'][$position] == "Maquina de Lavar") ? "selected" : "" ?> > Máquina de Lavar </option>
 				<option value="Microondas"
-				<?= ($_SESSION['valoresPreviosTipoTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] == "Microondas") ? "selected" : "" ?>
-				 > Micro-Ondas </option>
+				<?= ($_SESSION['valoresPreviosTipoTomada'][$position] == "Microondas") ? "selected" : "" ?> > Micro-Ondas </option>
 				<option value="Ar condicionado"
-				<?= ($_SESSION['valoresPreviosTipoTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] == "Ar condicionado") ? "selected" : "" ?>
-				  > Ar condicionados </option>
+				<?= ($_SESSION['valoresPreviosTipoTomada'][$position] == "Ar condicionado") ? "selected" : "" ?> > Ar condicionados </option>
 			</select>
 
-			<tab>Quantidade:<input type="text" name="quantidade" size="1"
-			 value="<?= $_SESSION['valoresPreviosQuantidadeTomada'][$controlePosicao - ($controlePosicao > 0 ? 1 : 0)] ?>" required/></tab>
+			<tab>Quantidade:<input type="text" name="quantidade[]" size="1"
+			 value="<?= $_SESSION['valoresPreviosQuantidadeTomada'][$position] ?>" required/></tab>
 		<?php endfor ?>
 		
-		<!--<tab>Quantidade:<input type="text" name="quantidade" size="1" value="<?= $_SESSION['valoresPreviosQuantidadeTomada'][$controlePosicao - 1] ?>" required/></tab>-->
 
 		<tab><input type="submit" name="acaoRealizada" value="Nova Tomada"></tab>
 
