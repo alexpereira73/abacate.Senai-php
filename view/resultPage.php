@@ -23,13 +23,9 @@
 		/*************************************************
 			Retorno ao Usuário:
 			• Quantidade de tomadas por cômodo
-
 			• Potência de tomadas por Cômodo
-
 			• Potência de iluminação por Cômodo
-
 			• Potência total de uso específico
-
 			• Potência total instalada na residência
 		*************************************************/
 		
@@ -38,12 +34,28 @@
 		if($_SESSION['VetorLista'] -> isEmpty())
 			echo "Não há nenhuma informação armazenada";
 		else{
+			$potenciaTotal = 0;
+			$potenciaTotalEspecifica = 0;
+
 			for($contador = 0; $contador < $_SESSION['VetorLista'] -> size(); $contador += 1){
-				echo $_SESSION['VetorLista'] -> get($contador) -> exibirInformacoes()."<br/>";
-				echo $_SESSION['VetorLista'] -> get($contador) -> iluminacao()."KVA<br/>";
-				echo $_SESSION['VetorLista'] -> get($contador) -> quantidadeTomadas()." Tomadas <br/>";
-				echo $_SESSION['VetorLista'] -> get($contador) -> potencias()."VA<br/>";
+				echo "ID Comodo: ".$_SESSION['VetorLista'] -> get($contador) -> getIdComodo()."<br/>";
+				echo "Quantidade de Tomadas: ".$_SESSION['VetorLista'] -> get($contador) -> quantidadeTomadas()." Tomadas <br/>";
+
+				/*calcula a potencia das tomadas*/
+				$potenciaTomadas = $_SESSION['VetorLista'] -> get($contador) -> potencias();
+				echo "Potencia das Tomadas: ".($potenciaTomadas / 1000)."KVA<br/>";	/*Divide-se por 1000 para converter para KVA*/
+
+				/*calcula a potencia da iluminacao*/
+				$potenciaIlumicacao = $_SESSION['VetorLista'] -> get($contador) -> iluminacao();
+				echo "Ilumicação: ".$potenciaIlumicacao."KVA<br/><br/>";
+
+				/*soma as potencias totais da residencia*/
+				$potenciaTotal += (($potenciaTomadas / 1000) + $potenciaIlumicacao);
+				$potenciaTotalEspecifica += $_SESSION['VetorLista'] -> get($contador) -> potenciasEspecificas();
 			}
+
+			echo "<br/>Potência total de uso específico: ".$potenciaTotalEspecifica."KVA<br/>";
+			echo "Potência total instalada na residência: ".($potenciaTotal + $potenciaTotalEspecifica)."KVA<br/>";
 		}
 		session_destroy();
 	?>

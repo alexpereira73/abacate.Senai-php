@@ -27,6 +27,11 @@
 			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
 				$_SESSION['valoresPreviosQuantidadeTomada'][0] = 1;
 				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+
+				/*Para os campos de Area e Perimetro fora do laço de repetição*/
+				$_SESSION['areaPrevia'] = "";
+				$_SESSION['perimetroPrevio'] = "";
+				$_SESSION['previoIdComodo'] = "Banheiro";
 			}
 			else {
 				/*Para quantidade de tomadas*/
@@ -47,6 +52,13 @@
 
 				$_SESSION['adicionarTomada'] += 1;
 			}
+
+			/*Para area e perimetro*/
+			if(is_numeric(htmlspecialchars($_POST['area'])))
+				$_SESSION['areaPrevia'] = htmlspecialchars($_POST['area']);
+			if(is_numeric(htmlspecialchars($_POST['perimetro'])))
+				$_SESSION['perimetroPrevio'] = htmlspecialchars($_POST['perimetro']);
+			$_SESSION['previoIdComodo'] = htmlspecialchars($_POST['comodosId']);
 		}
 		else
 			$_SESSION['adicionarTomada'] = 1;
@@ -62,6 +74,10 @@
 			unset($_SESSION['adicionarTomada']);
 			unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
 			$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+
+			unset($_SESSION['areaPrevia']);
+			unset($_SESSION['perimetroPrevio']);
+			unset($_SESSION['previoIdComodo']);
 		}
 
 		if($acao == "Inserir Comodo")
@@ -70,7 +86,7 @@
 		if($acao != "Calcular")
 			header('Location: ../view/index.php');
 
-		if($acao == "Calcular")
+		else/*if($acao == "Calcular")*/
 			header('Location: ../view/resultPage.php');
 	}
 

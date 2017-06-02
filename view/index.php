@@ -17,21 +17,6 @@
 
 	<form method = "post" action="../controller/controlador.php">
 
-		Identificação do cômodo:<select name="comodosId">
-			<option value="Banheiro"> Banheiro </option>
-			<option value="Cozinha"> Cozinha </option>
-			<option value="Copa"> Copa </option>
-			<option value="Copa-Cozinha"> Copa-Cozinha </option>
-			<option value="Area de Servico"> Área de servico </option>
-			<option value="Cozinha-area de servico"> Cozinha-área de servico </option>
-			<option value="Lavanderia"> Lavanderia </option>
-			<option value="Sala"> Sala </option>
-			<option value="Dormitorio"> Dormitorio </option>
-		</select>
-
-		<tab>Área:</tab><input type="text" name="area" size="1">
-
-		<tab>Perímetro:</tab><input type="text" name="perimetro" size="1">
 		<?php session_start();
 			if(!isset($_SESSION['adicionarTomada']))
 				$_SESSION['adicionarTomada'] = 1;
@@ -40,11 +25,46 @@
 				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
 			}
 
+			if(!isset($_SESSION['areaPrevia']))
+				$_SESSION['areaPrevia'] = "";
+
+			if(!isset($_SESSION['perimetroPrevio']))
+				$_SESSION['perimetroPrevio'] = "";
+
+			if(!isset($_SESSION['previoIdComodo']))
+				$_SESSION['previoIdComodo'] = "Banheiro";
+
 			$controlePosicao = 1;
 			if($_SESSION['adicionarTomada'] > 1)
 				$controlePosicao = $_SESSION['adicionarTomada'];
 			
 		?>
+
+		Identificação do cômodo:<select name="comodosId">
+			<option value="Banheiro"
+			<?= ($_SESSION['previoIdComodo'] == "Banheiro") ? "selected" : "" ?> > Banheiro </option>
+			<option value="Cozinha"
+			<?= ($_SESSION['previoIdComodo'] == "Cozinha") ? "selected" : "" ?> > Cozinha </option>
+			<option value="Copa"
+			<?= ($_SESSION['previoIdComodo'] == "Copa") ? "selected" : "" ?> > Copa </option>
+			<option value="Copa-Cozinha"
+			<?= ($_SESSION['previoIdComodo'] == "Copa-Cozinha") ? "selected" : "" ?> > Copa-Cozinha </option>
+			<option value="Area de Servico"
+			<?= ($_SESSION['previoIdComodo'] == "Area de Servico") ? "selected" : "" ?> > Área de servico </option>
+			<option value="Cozinha-area de servico"
+			<?= ($_SESSION['previoIdComodo'] == "Cozinha-area de servico") ? "selected" : "" ?> > Cozinha-área de servico </option>
+			<option value="Lavanderia"
+			<?= ($_SESSION['previoIdComodo'] == "Lavanderia") ? "selected" : "" ?> > Lavanderia </option>
+			<option value="Sala"
+			<?= ($_SESSION['previoIdComodo'] == "Sala") ? "selected" : "" ?> > Sala </option>
+			<option value="Dormitorio"
+			<?= ($_SESSION['previoIdComodo'] == "Dormitorio") ? "selected" : "" ?> > Dormitorio </option>
+		</select>
+
+		<tab>Área:</tab><input type="text" name="area" size="1" value = "<?= $_SESSION['areaPrevia'] ?>">
+
+		<tab>Perímetro:</tab><input type="text" name="perimetro" size="1" value = "<?= $_SESSION['perimetroPrevio'] ?>">
+		
 
 		<?php for ($position = 0; $position < $controlePosicao; $position += 1): ?>
 			<br/>Tomada de uso específico:<select name="tomadas[]">
@@ -73,7 +93,7 @@
 
 		<?php
 			if(isset($_SESSION['mensagemErro'])){
-				echo "<br/><error>".$_SESSION['mensagemErro']."</error>";
+				echo "<br/><errorMessages>".$_SESSION['mensagemErro']."</errorMessages>";
 				unset($_SESSION['mensagemErro']);
 			}
 		?>

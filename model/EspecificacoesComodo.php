@@ -3,8 +3,8 @@
 		private $idComodo = "";
 		private $area = 0;
 		private $perimetro = 0;
-		private $tomadasTipo = "";
-		private $quantidadeTomadasTipo = 0;
+		private $tomadasTipo;
+		private $quantidadeTomadasTipo;
 
 		public function inserirDados($recebeComodoId, $recebeArea, $recebePerimetro, $recebeTipoTomada, $recebeQuantidadeTomada){
 			$this -> idComodo = $recebeComodoId;
@@ -79,19 +79,21 @@
 			$potencias["Chuveiro"] = 4.4;
 			$potencias["Ferro de Passar"] = 1.2;
 			$potencias["Ar condicionado"] = 2.5;
-			$potencias["Máquina de Lavar"] = 1;
+			$potencias["Maquina de Lavar"] = 1;
 			$potencias["Microondas"] = 2;
-			
-			/*teste insercao dados da hash*/
-			/*foreach ($potencias as $valores) {
-				echo "$valores"."<br/>";
-			}*/
+
+			$retornoPotencia = 0;
+			for($position = 0; $position < $this -> tomadasTipo -> size(); $position += 1){
+				$retornoPotencia += $potencias[$this -> tomadasTipo -> get($position)];
+			}
+
+			return $retornoPotencia;
 		}
 
 		public function quantidadeTomadas(){
 			if($this -> idComodo == "Dormitorio" || $this -> idComodo == "Sala"){
 				$numeroTomadas = intval(($this -> perimetro) <= 5 ? 1 : ($this -> perimetro / 5));
-				return (($this -> perimetro / 5) > numeroTomadas) ? (numeroTomadas + 1) : numeroTomadas;
+				return (($this -> perimetro / 5) > $numeroTomadas) ? ($numeroTomadas + 1) : $numeroTomadas;
 			}
 			$numeroTomadas = intval(($this -> perimetro) <= 3.5 ? 1 : ($this -> perimetro / 3.5));
 			return (($this -> perimetro / 3.5) > $numeroTomadas) ? ($numeroTomadas + 1) : $numeroTomadas;
