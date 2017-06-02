@@ -22,6 +22,26 @@
 		return $comodosAdicionados;
 	}
 
+	function adicionaDadosTemporarios($proximaNao){
+		/*Para quantidade de tomadas*/
+		$contadorAdiciona = 0;
+		foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
+			$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = $quantidadeEspecificas;
+			$contadorAdiciona += 1;
+		}
+		if($proximaNao)
+			$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = 1;
+		
+		/*para tipo de tomadas*/
+		$contadorAdiciona = 0;
+		foreach ($_POST['tomadas'] as $tiposEspecificos) {
+			$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = $tiposEspecificos;
+			$contadorAdiciona += 1;
+		}
+		if($proximaNao)
+			$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = "Ferro de Passar";
+	}
+
 	function novaTomada(){
 		if(isset($_SESSION['adicionarTomada'])){
 			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
@@ -34,22 +54,7 @@
 				$_SESSION['previoIdComodo'] = "Banheiro";
 			}
 			else {
-				/*Para quantidade de tomadas*/
-				$contadorAdiciona = 0;
-				foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
-					$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = $quantidadeEspecificas;
-					$contadorAdiciona += 1;
-				}
-				$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = 1;
-				
-				/*para tipo de tomadas*/
-				$contadorAdiciona = 0;
-				foreach ($_POST['tomadas'] as $tiposEspecificos) {
-					$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = $tiposEspecificos;
-					$contadorAdiciona += 1;
-				}
-				$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = "Ferro de Passar";
-
+				adicionaDadosTemporarios(true);
 				$_SESSION['adicionarTomada'] += 1;
 			}
 
@@ -80,7 +85,9 @@
 				unset($_SESSION['perimetroPrevio']);
 				unset($_SESSION['previoIdComodo']);
 			}
-			$_SESSION['VetorLista'] -> add(saveData());
+			adicionaDadosTemporarios(false);
+			if(!isset($_SESSION['mensagemErro']))
+				$_SESSION['VetorLista'] -> add(saveData());
 		}
 
 		if($acao != "Calcular")

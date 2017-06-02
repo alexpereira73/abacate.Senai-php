@@ -1,10 +1,16 @@
 dummydeclaration { padding-left: 4em; }
 tab { padding-left: 2em; }
 
+html {
+	font-size: 10px;
+	-webkit-tap-highlight-color: #E8F7F6;
+}
+
 body {
 	font-family: Courier, "Courier New";
 	font-size: 13px;
 	color: #000000;
+	background-color: #E8F7F6;
 }
 
 h1 {
