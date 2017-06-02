@@ -5,6 +5,7 @@
 	<title>Sistema de cálculo de voltagem</title>
 
 	<!--<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />-->
+	<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	-->
 	<link rel="stylesheet" type="text/css" href="css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="css/definitions.css">
 
@@ -93,7 +94,8 @@
 
 		<?php
 			if(isset($_SESSION['mensagemErro'])){
-				echo "<br/><errorMessages>".$_SESSION['mensagemErro']."</errorMessages>";
+				echo "<tab/><errorMessages>".$_SESSION['mensagemErro']."</errorMessages>";
+				/*echo "<br/><div class='alert alert-danger' role='alert'>".$_SESSION['mensagemErro']."</div>";*/
 				unset($_SESSION['mensagemErro']);
 			}
 		?>

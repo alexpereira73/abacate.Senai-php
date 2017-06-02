@@ -71,17 +71,17 @@
 		}
 
 		if($acao == "Inserir Comodo"){
-			unset($_SESSION['adicionarTomada']);
-			unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
-			$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+			if(!isset($_SESSION['mensagemErro'])){
+				unset($_SESSION['adicionarTomada']);
+				unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
+				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
 
-			unset($_SESSION['areaPrevia']);
-			unset($_SESSION['perimetroPrevio']);
-			unset($_SESSION['previoIdComodo']);
-		}
-
-		if($acao == "Inserir Comodo")
+				unset($_SESSION['areaPrevia']);
+				unset($_SESSION['perimetroPrevio']);
+				unset($_SESSION['previoIdComodo']);
+			}
 			$_SESSION['VetorLista'] -> add(saveData());
+		}
 
 		if($acao != "Calcular")
 			header('Location: ../view/index.php');
