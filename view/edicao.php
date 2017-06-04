@@ -52,7 +52,6 @@
 
 		if($editarDeletar == "Editar"){
 			if($_SESSION['paginaOrigem'] != "../controller/controlador.php"){
-				$_SESSION['adicionarTomada'] = 1;
 				$_SESSION['areaPrevia'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getArea();
 				$_SESSION['perimetroPrevio'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getPerimetro();
 				$_SESSION['previoIdComodo'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getIdComodo();
@@ -66,6 +65,7 @@
 					$_SESSION['valoresPreviosQuantidadeTomada'][$positionSearch] = $insereArray -> get($positionSearch);
 				
 				$controlePosicao = $insereArray -> size();
+				$_SESSION['adicionarTomada'] = $insereArray -> size();
 			}
 			else
 				$controlePosicao = $_SESSION['adicionarTomada'];
