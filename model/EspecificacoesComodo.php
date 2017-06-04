@@ -55,12 +55,28 @@
 			$this -> tomadasTipo = $tomadasTipoRecebido;
 		}
 
+		public function printTomadasTipo(){
+			$stringRetorno = "";
+			for($positionSearch = 0; $positionSearch < $this -> tomadasTipo -> size(); $positionSearch += 1){
+				$stringRetorno = $stringRetorno.$this -> tomadasTipo -> get($positionSearch)."<br/>";
+			}
+			return $stringRetorno;
+		}
+
 		public function getQuantidadeTomadasTipo() {
 			return $this -> quantidadeTomadasTipo;
 		}
 
 		public function setQuantidadeTomadasTipo($quantidadeTomadasTipoRecebido) {
 			$this -> quantidadeTomadasTipo = $quantidadeTomadasTipoRecebido;
+		}
+
+		public function printQuantidadeTomadasTipo(){
+			$stringRetorno = "";
+			for($positionSearch = 0; $positionSearch < $this -> quantidadeTomadasTipo -> size(); $positionSearch += 1){
+				$stringRetorno = $stringRetorno.$this -> quantidadeTomadasTipo -> get($positionSearch)."<br/>";
+			}
+			return $stringRetorno;
 		}
 
 		public function iluminacao(){

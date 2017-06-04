@@ -2,13 +2,15 @@
 <html lang = "pt-br">
 <head>
 	<META charset = "utf-8"/>
-	<title>Edição Comodo</title>
+	<title>Sistema de cálculo de voltagem</title>
 
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../view/css/fonts.css">
-	<link rel="stylesheet" type="text/css" href="../view/css/definitions.css">
+	<!--<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />-->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
+	<link rel="stylesheet" type="text/css" href="css/fonts.css">
+	<link rel="stylesheet" type="text/css" href="css/definitions.css">
 
 	<link rel="icon" href="imagens/favicon.ico">
+
 </head>
 <body bgcolor="#E8F7F6">
 	
@@ -19,49 +21,39 @@
 
 		<div>
 			<ul class = "nav navbar-nav">
-				<li><a href = "inserirComodos.php">Inserir Comodo</a></li>
-				<li class = "active"><a href = "comodosInseridos.php">Comodos Inseridos</a></li>
+				<li class = "active"><a href = "inserirComodos.php">Inserir Comodo</a></li>
+				<li><a href = "comodosInseridos.php">Comodos Inseridos</a></li>
 				<li><a href = "resultPage.php">Resultado Final</a></li>
 				
 			</ul>
 		</div>
 	</nav>
 
-	<?php
-		include_once ("../model/EspecificacoesComodo.php");
-		include_once ("../util/VetorLista.php");
-		session_start();
-		$_SESSION['paginaOrigem'] = "../view/edicao.php";
+	<form style=" max-width: 810px; padding: 10px; margin: 0 auto;" method = "post" action="../controller/controlador.php">
 
-		/*pensar em como adquirir a String do name correta*/
+		<?php session_start();
 
-		for($posicaoEdicao = 0; (!isset($_POST['editaDeleta_'.$posicaoEdicao])); $posicaoTipo += 1);
+			$_SESSION['paginaOrigem'] = "../view/inserirComodos.php";
+			if(!isset($_SESSION['adicionarTomada']))
+				$_SESSION['adicionarTomada'] = 1;
+			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
+				$_SESSION['valoresPreviosQuantidadeTomada'][0] = 1;
+				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+			}
 
-		$editarDeletar = $_POST['editaDeleta_'.$posicaoEdicao];
+			if(!isset($_SESSION['areaPrevia']))
+				$_SESSION['areaPrevia'] = "";
 
-		if($editarDeletar == "Deletar"){
-			$_SESSION['VetorLista'] -> removeIndex($posicaoEdicao);
-			$_SESSION['mensagemSucesso'] = "Cômodo Removido Com Sucesso";
-			header('Location: ../view/comodosInseridos.php');
-		}
+			if(!isset($_SESSION['perimetroPrevio']))
+				$_SESSION['perimetroPrevio'] = "";
 
-		else{
-			$_SESSION['areaPrevia'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getArea();
-			$_SESSION['perimetroPrevio'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getPerimetro();
-			$_SESSION['previoIdComodo'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getIdComodo();
+			if(!isset($_SESSION['previoIdComodo']))
+				$_SESSION['previoIdComodo'] = "Banheiro";
 
-			$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getTomadasTipo();
-			for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
-				$_SESSION['valoresPreviosTipoTomada'][$positionSearch] = $insereArray -> get($positionSearch);
-
-			$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getQuantidadeTomadasTipo();
-			for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
-				$_SESSION['valoresPreviosQuantidadeTomada'][$positionSearch] = $insereArray -> get($positionSearch);
-			$controlePosicao = $insereArray -> size();
-		}
-	?>
-
-	<form style=" max-width: 810px; padding: 10px; margin: 0 auto;" method = "post" action = "../controller/controlador.php">
+			$controlePosicao = 1;
+			if($_SESSION['adicionarTomada'] > 1)
+				$controlePosicao = $_SESSION['adicionarTomada'];
+		?>
 		<div class="row">
 			<div>
 				<div class="panel panel-default">
@@ -118,21 +110,24 @@
 
 						<tab><input type="submit" name="acaoRealizada" value="Nova Tomada"></tab>
 
-						<br/><input type="submit" name="acaoRealizada" value="Concluir" size="7">
+						<br/><input type="submit" name="acaoRealizada" value="Inserir Comodo"><br/>
+
+						<!--<br/><input type="submit" name="acaoRealizada" value="Calcular" size="7">-->
 						
 					</div><!-- fecha div panel-body -->
 				</div>
 			</div><!-- /.col-sm-6 -->
 		</div>
+		
 
 		<?php
 			if(isset($_SESSION['mensagemErro'])){
-				echo "<br/><div class='alert alert-danger' role='alert'>".$_SESSION['mensagemErro']."</div>";
+				/*echo "<tab/><errorMessages>".$_SESSION['mensagemErro']."</errorMessages>";*/
+				echo "<div class='alert alert-danger' role='alert'>".$_SESSION['mensagemErro']."</div>";
 				unset($_SESSION['mensagemErro']);
 			}
 		?>
 	</form>
-	
-	
+
 </body>
 </html>

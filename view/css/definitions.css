@@ -1,5 +1,6 @@
-dummydeclaration { padding-left: 4em; }
-tab { padding-left: 2em; }
+input[type=number]{
+    width: 57px;
+}
 
 html {
 	font-size: 10px;
@@ -8,7 +9,8 @@ html {
 
 body {
 	font-family: Courier, "Courier New";
-	font-size: 13px;
+	font-size: 15px;
+	padding-bottom: 40px;
 	color: #000000;
 	background-color: #E8F7F6;
 }
@@ -39,9 +41,16 @@ select {
 	padding: 5px;
 }
 
+tab { padding-left: 2em; }
+
 errorMessages{
 	font-family: "Wild Words Roman BR";
 	font-size: 10px;
 	padding: 5px;
 	color: #E81E17;
+}
+
+identificacaoComodo{
+	float: center;
+	text-align: center;
 }

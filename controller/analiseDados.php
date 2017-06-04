@@ -88,13 +88,13 @@
 			adicionaDadosTemporarios(false);
 			if(!isset($_SESSION['mensagemErro']))
 				$_SESSION['VetorLista'] -> add(saveData());
+			header('Location: ../view/inserirComodos.php');
 		}
 
 		if($acao != "Calcular")
-			header('Location: ../view/index.php');
-
-		else/*if($acao == "Calcular")*/
-			header('Location: ../view/resultPage.php');
+			header('Location: ../view/inserirComodos.php');
+		if($acao == "Concluir")
+			header('Location: ../view/comodosInseridos.php');
 	}
 
 ?>
