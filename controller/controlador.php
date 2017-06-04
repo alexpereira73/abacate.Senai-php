@@ -41,5 +41,6 @@
 		include_once("analiseDados.php");
 		/*if(!isset($_SESSION['mensagemErro']))
 			*/verificaAcao($testaAcao);
+		$_SESSION['paginaOrigem'] = "../controller/controlador.php";
 	}
 ?>

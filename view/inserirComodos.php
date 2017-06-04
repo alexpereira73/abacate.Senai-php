@@ -2,7 +2,7 @@
 <html lang = "pt-br">
 <head>
 	<META charset = "utf-8"/>
-	<title>Sistema de cálculo de voltagem</title>
+	<title>Inserir Cômodo</title>
 
 	<!--<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />-->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
@@ -33,13 +33,21 @@
 
 		<?php session_start();
 
-			$_SESSION['paginaOrigem'] = "../view/inserirComodos.php";
-			if(!isset($_SESSION['adicionarTomada']))
+			if(!isset($_SESSION['paginaOrigem']))
+				$_SESSION['paginaOrigem'] = "";
+			$booleanTeste = $_SESSION['paginaOrigem'] == "../view/inserirComodos.php" || $_SESSION['paginaOrigem'] == "../controller/controlador.php";
+			if(!isset($_SESSION['adicionarTomada']) || !$booleanTeste){
 				$_SESSION['adicionarTomada'] = 1;
-			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
+			
+			/*if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){*/
 				$_SESSION['valoresPreviosQuantidadeTomada'][0] = 1;
 				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+
+				unset($_SESSION['areaPrevia']);
+				unset($_SESSION['perimetroPrevio']);
+				unset($_SESSION['previoIdComodo']);
 			}
+			$_SESSION['paginaOrigem'] = "../view/inserirComodos.php";
 
 			if(!isset($_SESSION['areaPrevia']))
 				$_SESSION['areaPrevia'] = "";
@@ -113,7 +121,7 @@
 						<br/><input type="submit" name="acaoRealizada" value="Inserir Comodo"><br/>
 
 						<!--<br/><input type="submit" name="acaoRealizada" value="Calcular" size="7">-->
-						
+
 					</div><!-- fecha div panel-body -->
 				</div>
 			</div><!-- /.col-sm-6 -->

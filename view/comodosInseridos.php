@@ -34,8 +34,12 @@
 
 		$_SESSION['paginaOrigem'] = "../view/comodosInseridos.php";
 		if(isset($_SESSION['mensagemSucesso'])){
-			echo "<br/><div class='alert alert-success' align = 'center' role='alert'>".$_SESSION['mensagemSucesso']."</div>";
+			if($_SESSION['mensagemSucesso'] != " "){
+				echo "<br/><div class='alert alert-success' align = 'center' role='alert'>".$_SESSION['mensagemSucesso']."</div>";
+				$_SESSION['mensagemSucesso'] = " ";
+			}
 		}
+
 		if(!isset($_SESSION['VetorLista'])){
 			$repeticaoLaco = 0;
 			echo "<br/><div class='alert alert-danger' role='alert'>"."<p align = 'center'>Nenhum Cômodo foi inserido</p>"."</div>";
@@ -44,8 +48,10 @@
 			if($_SESSION['VetorLista'] -> size() == 0){
 				if(!isset($_SESSION['mensagemSucesso']))
 					echo "<br/><div class='alert alert-warning' role='alert'>"."<p align = 'center'>Nenhum Cômodo foi inserido</p>"."</div>";
-				else
+				else{
+					$_SESSION['mensagemSucesso'] = " ";
 					unset($_SESSION['mensagemSucesso']);
+				}
 			}
 			$repeticaoLaco = $_SESSION['VetorLista'] -> size();
 		}

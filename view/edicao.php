@@ -31,34 +31,46 @@
 		include_once ("../model/EspecificacoesComodo.php");
 		include_once ("../util/VetorLista.php");
 		session_start();
-		$_SESSION['paginaOrigem'] = "../view/edicao.php";
 
-		/*pensar em como adquirir a String do name correta*/
+		if($_SESSION['paginaOrigem'] != "../controller/controlador.php"){
+			/*pensar em como adquirir a String do name correta*/
+			for($posicaoEdicao = 0; (!isset($_POST['editaDeleta_'.$posicaoEdicao])) && $posicaoEdicao < $_SESSION['VetorLista'] -> size(); $posicaoEdicao += 1);
 
-		for($posicaoEdicao = 0; (!isset($_POST['editaDeleta_'.$posicaoEdicao])); $posicaoTipo += 1);
+			$editarDeletar = $_POST['editaDeleta_'.$posicaoEdicao];
 
-		$editarDeletar = $_POST['editaDeleta_'.$posicaoEdicao];
-
-		if($editarDeletar == "Deletar"){
-			$_SESSION['VetorLista'] -> removeIndex($posicaoEdicao);
-			$_SESSION['mensagemSucesso'] = "Cômodo Removido Com Sucesso";
-			header('Location: ../view/comodosInseridos.php');
+			if($editarDeletar == "Deletar"){
+				$_SESSION['VetorLista'] -> removeIndex($posicaoEdicao);
+				$_SESSION['mensagemSucesso'] = "Cômodo Removido Com Sucesso";
+				header('Location: ../view/comodosInseridos.php');
+			}
+			$_SESSION['editando'] = $posicaoEdicao;
 		}
-
 		else{
-			$_SESSION['areaPrevia'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getArea();
-			$_SESSION['perimetroPrevio'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getPerimetro();
-			$_SESSION['previoIdComodo'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getIdComodo();
-
-			$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getTomadasTipo();
-			for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
-				$_SESSION['valoresPreviosTipoTomada'][$positionSearch] = $insereArray -> get($positionSearch);
-
-			$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getQuantidadeTomadasTipo();
-			for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
-				$_SESSION['valoresPreviosQuantidadeTomada'][$positionSearch] = $insereArray -> get($positionSearch);
-			$controlePosicao = $insereArray -> size();
+			$posicaoEdicao = $_SESSION['editando'];
+			$editarDeletar = "Editar";
 		}
+
+		if($editarDeletar == "Editar"){
+			if($_SESSION['paginaOrigem'] != "../controller/controlador.php"){
+				$_SESSION['adicionarTomada'] = 1;
+				$_SESSION['areaPrevia'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getArea();
+				$_SESSION['perimetroPrevio'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getPerimetro();
+				$_SESSION['previoIdComodo'] = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getIdComodo();
+
+				$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getTomadasTipo();
+				for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
+					$_SESSION['valoresPreviosTipoTomada'][$positionSearch] = $insereArray -> get($positionSearch);
+
+				$insereArray = $_SESSION['VetorLista'] -> get($posicaoEdicao) -> getQuantidadeTomadasTipo();
+				for($positionSearch = 0; $positionSearch < $insereArray -> size(); $positionSearch += 1)
+					$_SESSION['valoresPreviosQuantidadeTomada'][$positionSearch] = $insereArray -> get($positionSearch);
+				
+				$controlePosicao = $insereArray -> size();
+			}
+			else
+				$controlePosicao = $_SESSION['adicionarTomada'];
+		}
+		$_SESSION['paginaOrigem'] = "../view/edicao.php";
 	?>
 
 	<form style=" max-width: 810px; padding: 10px; margin: 0 auto;" method = "post" action = "../controller/controlador.php">

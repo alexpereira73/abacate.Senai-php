@@ -73,9 +73,14 @@
 		/*session_start();*/
 		if($acao == "Nova Tomada"){
 			novaTomada();
+			if($_SESSION['paginaOrigem'] == "../view/edicao.php")
+				header('Location: ../view/edicao.php');
+			else if($_SESSION['paginaOrigem'] == "../view/inserirComodos.php")
+				header('Location: ../view/inserirComodos.php');
+			
 		}
 
-		if($acao == "Inserir Comodo"){
+		else{
 			if(!isset($_SESSION['mensagemErro'])){
 				unset($_SESSION['adicionarTomada']);
 				unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
@@ -86,15 +91,20 @@
 				unset($_SESSION['previoIdComodo']);
 			}
 			adicionaDadosTemporarios(false);
-			if(!isset($_SESSION['mensagemErro']))
-				$_SESSION['VetorLista'] -> add(saveData());
-			header('Location: ../view/inserirComodos.php');
+			if(!isset($_SESSION['mensagemErro'])){
+				if($acao == "Inserir Comodo"){
+					$_SESSION['VetorLista'] -> add(saveData());
+					header('Location: ../view/inserirComodos.php');
+				}
+
+				else if($acao == "Concluir"){
+					$_SESSION['VetorLista'] -> set($_SESSION['editando'], saveData());
+					header('Location: ../view/comodosInseridos.php');
+				}
+			}
+
 		}
 
-		if($acao != "Calcular")
-			header('Location: ../view/inserirComodos.php');
-		if($acao == "Concluir")
-			header('Location: ../view/comodosInseridos.php');
 	}
 
 ?>
