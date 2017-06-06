@@ -105,13 +105,7 @@
 					}
 					else{
 						/*executa acao de remocao*/
-						$_SESSION['adicionarTomada'] -= 1;
-						$contador = $positionRemove;
-						for($alterarValores = $positionRemove + 1; $alterarValores <= $_SESSION['adicionarTomada']; $alterarValores += 1){
-							$_SESSION['valoresPreviosQuantidadeTomada'][$contador] = $_SESSION['valoresPreviosQuantidadeTomada'][$alterarValores];
-							$_SESSION['valoresPreviosTipoTomada'][$contador] = $_SESSION['valoresPreviosTipoTomada'][$alterarValores];
-							$contador += 1;
-						}
+						
 						$paginaMudanca = $_SESSION['paginaOrigem'];
 						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
 						header('Location: '.$paginaMudanca);
