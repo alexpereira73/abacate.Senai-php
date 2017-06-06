@@ -73,23 +73,18 @@
 		/*session_start();*/
 		if($acao == "Nova Tomada"){
 			novaTomada();
-			if($_SESSION['paginaOrigem'] == "../view/edicao.php")
+			if($_SESSION['paginaOrigem'] == "../view/edicao.php"){
+				$_SESSION['paginaOrigem'] = "../controller/controlador.php";
 				header('Location: ../view/edicao.php');
-			else if($_SESSION['paginaOrigem'] == "../view/inserirComodos.php")
+			}
+			else if($_SESSION['paginaOrigem'] == "../view/inserirComodos.php"){
+				$_SESSION['paginaOrigem'] = "../controller/controlador.php";
 				header('Location: ../view/inserirComodos.php');
+			}
 			
 		}
 
 		else{
-			if(!isset($_SESSION['mensagemErro'])){
-				unset($_SESSION['adicionarTomada']);
-				unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
-				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
-
-				unset($_SESSION['areaPrevia']);
-				unset($_SESSION['perimetroPrevio']);
-				unset($_SESSION['previoIdComodo']);
-			}
 			adicionaDadosTemporarios(false);
 			if(!isset($_SESSION['mensagemErro'])){
 				if($acao == "Inserir Comodo"){
@@ -100,6 +95,36 @@
 				else if($acao == "Concluir"){
 					$_SESSION['VetorLista'] -> set($_SESSION['editando'], saveData());
 					header('Location: ../view/comodosInseridos.php');
+				}
+
+				else{
+					$positionRemove = intval(substr($acao, -1));
+					if($positionRemove >= $_SESSION['adicionarTomada']){
+						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
+						header('Location: ../view/comodosInseridos.php');
+					}
+					else{
+						/*executa acao de remocao*/
+						$_SESSION['adicionarTomada'] -= 1;
+						$contador = $positionRemove;
+						for($alterarValores = $positionRemove + 1; $alterarValores <= $_SESSION['adicionarTomada']; $alterarValores += 1){
+							$_SESSION['valoresPreviosQuantidadeTomada'][$contador] = $_SESSION['valoresPreviosQuantidadeTomada'][$alterarValores];
+							$_SESSION['valoresPreviosTipoTomada'][$contador] = $_SESSION['valoresPreviosTipoTomada'][$alterarValores];
+							$contador += 1;
+						}
+						$paginaMudanca = $_SESSION['paginaOrigem'];
+						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
+						header('Location: '.$paginaMudanca);
+					}
+				}
+				if(!isset($positionRemove)){
+					unset($_SESSION['adicionarTomada']);
+					unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
+					$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+
+					unset($_SESSION['areaPrevia']);
+					unset($_SESSION['perimetroPrevio']);
+					unset($_SESSION['previoIdComodo']);
 				}
 			}
 

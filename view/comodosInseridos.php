@@ -12,7 +12,7 @@
 </head>
 <body bgcolor="#E8F7F6">
 
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class = "navbar-header">
 			<a class = "navbar-brand" href = "#">Sistema Gerenciamento Voltagem Residencia</a>
 		</div>
@@ -25,7 +25,7 @@
 				
 			</ul>
 		</div>
-	</nav>
+	</nav><br/><br/><br/>
 
 	<?php
 		include_once ("../model/EspecificacoesComodo.php");
@@ -38,6 +38,12 @@
 				echo "<br/><div class='alert alert-success' align = 'center' role='alert'>".$_SESSION['mensagemSucesso']."</div>";
 				$_SESSION['mensagemSucesso'] = " ";
 			}
+		}
+
+		if(isset($_SESSION['mensagemFalha'])){
+			echo "<br/><div class='alert alert-danger' align = 'center' role='alert'>".$_SESSION['mensagemFalha']."</div>";
+			$_SESSION['mensagemFalha'] = " ";
+			unset($_SESSION['mensagemFalha']);
 		}
 
 		if(!isset($_SESSION['VetorLista'])){

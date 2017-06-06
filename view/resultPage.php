@@ -12,7 +12,7 @@
 </head>
 <body bgcolor="#E8F7F6">
 	
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class = "navbar-header">
 			<a class = "navbar-brand" href = "#">Sistema Gerenciamento Voltagem Residencia</a>
 		</div>
@@ -25,7 +25,7 @@
 				
 			</ul>
 		</div>
-	</nav>
+	</nav><br/><br/><br/>
 
 	<?php
 		include_once ("../model/EspecificacoesComodo.php");
@@ -64,8 +64,10 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<div align="center">Resultados Residencia com <?php echo $_SESSION['VetorLista'] -> size() ?> Comodos</div>
-								<a href = "../controller/controlador.php"><input style="float:right;" type = "submit" name = "actionResult" value = "Limpar Dados"></a>
+								<div align="center">Resultados Residencia com <?php echo $_SESSION['VetorLista'] -> size(); ?> Comodos</div>
+								<form method="post" type = "submit" action="../controller/controlador.php">
+									<input style="float:right;" type = "submit" name = "actionResult" value = "Limpar Dados">
+								</form>
 							</h3>
 						</div>
 						<div class="panel-body">
@@ -99,17 +101,17 @@
 												$potenciaTotal += (($potenciaTomadas / 1000) + $potenciaIlumicacao);
 												$potenciaTotalEspecifica += $_SESSION['VetorLista'] -> get($contador) -> potenciasEspecificas();
 											?>
-										</tr>								  
+										</tr>
 									</tbody>
 									<?php endfor ?>
 								</table>
 
-							<?php
-								echo "<br/>Potência total de uso específico: ".$potenciaTotalEspecifica."KVA";
-								echo "<br/>Potência total instalada na residência: ".($potenciaTotal + $potenciaTotalEspecifica)."KVA";
-								/*session_destroy();*/
-							?>
-							<input style="float: right" type="button" name="imprimir" value="Imprimir" onclick="window.print();">
+								<?php
+									echo "<br/>Potência total de uso específico: ".$potenciaTotalEspecifica."KVA";
+									echo "<br/>Potência total instalada na residência: ".($potenciaTotal + $potenciaTotalEspecifica)."KVA";
+									/*session_destroy();*/
+								?>
+								<input style="float: right" type="button" name="imprimir" value="Imprimir" onclick="window.print();">
 							</div><!-- fecha do div da tabela -->
 						</div><!-- fecha div panel-body -->
 					</div>

@@ -14,9 +14,11 @@
 		$_SESSION['paginaOrigem'] = "";
 	
 	if($_SESSION['paginaOrigem'] == "../view/resultPage.php"){
-		session_destroy();
-		session_start();
-		$_SESSION['mensagemErro'] = "Dados Deletados com Sucesso!";
+		if($_POST['actionResult'] == "Limpar Dados"){
+			session_destroy();
+			session_start();
+			$_SESSION['mensagemErro'] = "Dados Deletados com Sucesso!";
+		}
 		header('Location: ../view/resultPage.php');	
 	}
 
@@ -30,8 +32,8 @@
 			unset($_SESSION['perimetroPrevio']);
 		else
 			$_SESSION['perimetroPrevio'] = htmlspecialchars($_POST['perimetro']);
-		$_SESSION['previoIdComodo'] = htmlspecialchars($_POST['comodosId']);
 
+		$_SESSION['previoIdComodo'] = htmlspecialchars($_POST['comodosId']);
 
 		$testaAcao = htmlspecialchars($_POST['acaoRealizada']);
 

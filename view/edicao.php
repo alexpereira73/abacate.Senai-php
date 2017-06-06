@@ -12,7 +12,7 @@
 </head>
 <body bgcolor="#E8F7F6">
 	
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class = "navbar-header">
 			<a class = "navbar-brand" href = "#">Sistema Gerenciamento Voltagem Residencia</a>
 		</div>
@@ -25,7 +25,7 @@
 				
 			</ul>
 		</div>
-	</nav>
+	</nav><br/><br/><br/>
 
 	<?php
 		include_once ("../model/EspecificacoesComodo.php");
@@ -33,9 +33,11 @@
 		session_start();
 
 		if($_SESSION['paginaOrigem'] != "../controller/controlador.php"){
-			/*pensar em como adquirir a String do name correta*/
 			for($posicaoEdicao = 0; (!isset($_POST['editaDeleta_'.$posicaoEdicao])) && $posicaoEdicao < $_SESSION['VetorLista'] -> size(); $posicaoEdicao += 1);
-
+			if($posicaoEdicao == $_SESSION['VetorLista'] -> size()){
+				$_SESSION['mensagemFalha'] = "Item não encontrado!";
+				header('Location: ../view/comodosInseridos.php');
+			}
 			$editarDeletar = $_POST['editaDeleta_'.$posicaoEdicao];
 
 			if($editarDeletar == "Deletar"){
@@ -46,6 +48,10 @@
 			$_SESSION['editando'] = $posicaoEdicao;
 		}
 		else{
+			if(!isset($_SESSION['editando']) || !isset($_SESSION['adicionarTomada'])){
+				$_SESSION['mensagemFalha'] = "Item não encontrado!";
+				header('Location: ../view/comodosInseridos.php');
+			}
 			$posicaoEdicao = $_SESSION['editando'];
 			$editarDeletar = "Editar";
 		}
@@ -67,9 +73,17 @@
 				$controlePosicao = $insereArray -> size();
 				$_SESSION['adicionarTomada'] = $insereArray -> size();
 			}
-			else
+			else{
+				if(!isset($_SESSION['areaPrevia']))
+					$_SESSION['areaPrevia'] = "";
+
+				if(!isset($_SESSION['perimetroPrevio']))
+					$_SESSION['perimetroPrevio'] = "";
+
 				$controlePosicao = $_SESSION['adicionarTomada'];
+			}
 		}
+		
 		$_SESSION['paginaOrigem'] = "../view/edicao.php";
 	?>
 
@@ -125,6 +139,11 @@
 
 							<tab>Quantidade:<input type="number" min="1" max="270" name="quantidade[]"
 							 value="<?= $_SESSION['valoresPreviosQuantidadeTomada'][$position] ?>" required/></tab>
+
+							<button style="float: left;" class="close" aria-label="Close" type="submit" name="acaoRealizada" value="<?= 'remove_'.$position ?>">
+								<span aria-hidden="true">&times;</span>
+							</button>
+
 						<?php endfor ?>
 						
 

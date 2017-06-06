@@ -4,9 +4,10 @@
 		unset($_SESSION['mensagemErro']);
 
 		if( (htmlspecialchars($_POST['area'])) == null || (htmlspecialchars($_POST['perimetro'])) == null || ($_POST['quantidade']) == null ){
-			if($testandoAcao != "Nova Tomada" && $testandoAcao != "Calcular"){
+			if($testandoAcao != "Nova Tomada" && substr($testandoAcao, 0, 6) != "remove"){
 				$_SESSION['mensagemErro'] = "Todos os campos devem ser preenchidos";
-				header('Location: ../view/inserirComodos.php');
+				/*header('Location: ../view/inserirComodos.php');*/
+				header('Location: '.$_SESSION['paginaOrigem']);
 			}
 		}
 
@@ -24,7 +25,8 @@
 			}
 
 			if(isset($_SESSION['mensagemErro']))
-				header('Location: ../view/inserirComodos.php');
+				/*../view/inserirComodos.php*/
+				header('Location: '.$_SESSION['paginaOrigem']);
 		}
 	}
 ?>

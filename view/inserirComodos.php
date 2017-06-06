@@ -14,7 +14,7 @@
 </head>
 <body bgcolor="#E8F7F6">
 	
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class = "navbar-header">
 			<a class = "navbar-brand" href = "#">Sistema Gerenciamento Voltagem Residencia</a>
 		</div>
@@ -27,7 +27,7 @@
 				
 			</ul>
 		</div>
-	</nav>
+	</nav><br/><br/><br/>
 
 	<form style=" max-width: 810px; padding: 10px; margin: 0 auto;" method = "post" action="../controller/controlador.php">
 
@@ -113,6 +113,10 @@
 
 							<tab>Quantidade:<input type="number" min="1" max="270" name="quantidade[]"
 							 value="<?= $_SESSION['valoresPreviosQuantidadeTomada'][$position] ?>" required/></tab>
+
+							<button style="float: left;" type="submit" class="close" aria-label="Close" name="acaoRealizada" value="<?= 'remove_'.$position ?>">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						<?php endfor ?>
 						
 
