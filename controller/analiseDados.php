@@ -105,7 +105,17 @@
 					}
 					else{
 						/*executa acao de remocao*/
-						
+						if($_SESSION['adicionarTomada'] > 1){
+							$_SESSION['adicionarTomada'] -= 1;
+							$contador = $positionRemove;
+							for($alterarValores = $positionRemove + 1; $alterarValores <= $_SESSION['adicionarTomada']; $alterarValores += 1){
+								$_SESSION['valoresPreviosQuantidadeTomada'][$contador] = $_SESSION['valoresPreviosQuantidadeTomada'][$alterarValores];
+								$_SESSION['valoresPreviosTipoTomada'][$contador] = $_SESSION['valoresPreviosTipoTomada'][$alterarValores];
+								$contador += 1;
+							}
+						}
+						else
+							$_SESSION['mensagemErro'] = "Item não pode ser removido!";
 						$paginaMudanca = $_SESSION['paginaOrigem'];
 						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
 						header('Location: '.$paginaMudanca);

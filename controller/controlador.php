@@ -14,6 +14,10 @@
 		$_SESSION['paginaOrigem'] = "";
 	
 	if($_SESSION['paginaOrigem'] == "../view/resultPage.php"){
+		if(!isset($_SESSION['actionResult'])){			
+			$_SESSION['mensagemErro'] = "Comando não encontrado!";
+			header('Location: ../view/resultPage.php');
+		}
 		if($_POST['actionResult'] == "Limpar Dados"){
 			session_destroy();
 			session_start();
@@ -23,6 +27,9 @@
 	}
 
 	else{
+
+		if((htmlspecialchars($_POST['area'])) == null || (htmlspecialchars($_POST['perimetro'])) == null || (htmlspecialchars($_POST['comodosId'])) == null || htmlspecialchars($_POST['acaoRealizada']) == null)
+			header('Location: ../view/comodosInseridos.php');
 
 		if(!is_numeric(htmlspecialchars($_POST['area'])))
 			unset($_SESSION['areaPrevia']);
