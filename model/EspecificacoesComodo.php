@@ -1,8 +1,8 @@
 <?php
 	class EspecificacoesComodo{
-		private $idComodo = "";
-		private $area = 0;
-		private $perimetro = 0;
+		private $idComodo;
+		private $area;
+		private $perimetro;
 		private $tomadasTipo;
 		private $quantidadeTomadasTipo;
 

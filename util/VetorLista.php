@@ -19,7 +19,7 @@
 		}
 
 		public function get($index) {
-			if($index <= $this -> next && $index >= 0)
+			if($index < $this -> next && $index >= 0)
 				return $this -> mainVector[$index];
 			return null;
 		}

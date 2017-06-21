@@ -1,20 +1,16 @@
 <?php
-
-	/*espaco para includes*/
-	include_once ("../model/EspecificacoesComodo.php");
-	include_once ("../util/VetorLista.php");
-
 	function saveData(){
 		$comodosAdicionados = new EspecificacoesComodo();
 		$quantidadesTomadas = new VetorLista();
 		$tiposTomadas = new VetorLista();
+		if( !($_SESSION['InserindoComodo'] -> getTomadasTipo() -> isEmpty()) ){
+			foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
+				$quantidadesTomadas -> add($quantidadeEspecificas);
+			}
 
-		foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
-			$quantidadesTomadas -> add($quantidadeEspecificas);
-		}
-
-		foreach ($_POST['tomadas'] as $nomesEspecificas) {
-			$tiposTomadas -> add($nomesEspecificas);
+			foreach ($_POST['tomadas'] as $nomesEspecificas) {
+				$tiposTomadas -> add($nomesEspecificas);
+			}
 		}
 
 		$comodosAdicionados -> inserirDados(htmlspecialchars($_POST['comodosId']), htmlspecialchars($_POST['area']),
@@ -24,116 +20,71 @@
 
 	function adicionaDadosTemporarios($proximaNao){
 		/*Para quantidade de tomadas*/
-		$contadorAdiciona = 0;
-		foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
-			$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = $quantidadeEspecificas;
-			$contadorAdiciona += 1;
+		if( !($_SESSION['InserindoComodo'] -> getTomadasTipo() -> isEmpty()) ){
+			$_SESSION['InserindoComodo'] -> setQuantidadeTomadasTipo(new VetorLista());
+			$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add(1);
+			foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
+				$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add($quantidadeEspecificas);
+			}
+			
+			/*para tipo de tomadas*/
+			$_SESSION['InserindoComodo'] -> setTomadasTipo(new VetorLista());
+			$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add("Ferro de Passar");
+			foreach ($_POST['tomadas'] as $tiposEspecificos) {
+				$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add($tiposEspecificos);
+			}
 		}
-		if($proximaNao)
-			$_SESSION['valoresPreviosQuantidadeTomada'][$contadorAdiciona] = 1;
-		
-		/*para tipo de tomadas*/
-		$contadorAdiciona = 0;
-		foreach ($_POST['tomadas'] as $tiposEspecificos) {
-			$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = $tiposEspecificos;
-			$contadorAdiciona += 1;
+		else{
+			$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add("Ferro de Passar");
+			$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add(1);
 		}
-		if($proximaNao)
-			$_SESSION['valoresPreviosTipoTomada'][$contadorAdiciona] = "Ferro de Passar";
 	}
 
 	function novaTomada(){
-		if(isset($_SESSION['adicionarTomada'])){
-			if(!isset($_SESSION['valoresPreviosQuantidadeTomada'][0])){
-				$_SESSION['valoresPreviosQuantidadeTomada'][0] = 1;
-				$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
+		adicionaDadosTemporarios(true);
 
-				/*Para os campos de Area e Perimetro fora do laço de repetição*/
-				$_SESSION['areaPrevia'] = "";
-				$_SESSION['perimetroPrevio'] = "";
-				$_SESSION['previoIdComodo'] = "Banheiro";
-			}
-			else {
-				adicionaDadosTemporarios(true);
-				$_SESSION['adicionarTomada'] += 1;
-			}
-
-			/*Para area e perimetro*/
-			if(is_numeric(htmlspecialchars($_POST['area'])))
-				$_SESSION['areaPrevia'] = htmlspecialchars($_POST['area']);
-			if(is_numeric(htmlspecialchars($_POST['perimetro'])))
-				$_SESSION['perimetroPrevio'] = htmlspecialchars($_POST['perimetro']);
-			$_SESSION['previoIdComodo'] = htmlspecialchars($_POST['comodosId']);
-		}
-		else
-			$_SESSION['adicionarTomada'] = 1;
+		/*Para area e perimetro*/
+		if(is_numeric(htmlspecialchars($_POST['area'])))
+			$_SESSION['InserindoComodo'] -> setArea(htmlspecialchars($_POST['area']));
+		if(is_numeric(htmlspecialchars($_POST['perimetro'])))
+			$_SESSION['InserindoComodo'] -> setPerimetro(htmlspecialchars($_POST['perimetro']));
+		$_SESSION['InserindoComodo'] -> setIdComodo(htmlspecialchars($_POST['comodosId']));
 	}
 
-	function verificaAcao($acao){
-		/*session_start();*/
+	function entreEdicaoInsercao($acao){
 		if($acao == "Nova Tomada"){
 			novaTomada();
-			if($_SESSION['paginaOrigem'] == "../view/edicao.php"){
-				$_SESSION['paginaOrigem'] = "../controller/controlador.php";
-				header('Location: ../view/edicao.php');
-			}
-			else if($_SESSION['paginaOrigem'] == "../view/inserirComodos.php"){
-				$_SESSION['paginaOrigem'] = "../controller/controlador.php";
-				header('Location: ../view/inserirComodos.php');
-			}
-			
 		}
-
+		else if($acao == "Inserir Comodo"){
+			$_SESSION['VetorLista'][1] -> add(saveData());
+		}
+		else if($acao == "Concluir"){
+			$_SESSION['VetorLista'][1] -> set($_SESSION['editando'], saveData());
+		}
 		else{
-			adicionaDadosTemporarios(false);
-			if(!isset($_SESSION['mensagemErro'])){
-				if($acao == "Inserir Comodo"){
-					$_SESSION['VetorLista'] -> add(saveData());
-					header('Location: ../view/inserirComodos.php');
-				}
-
-				else if($acao == "Concluir"){
-					$_SESSION['VetorLista'] -> set($_SESSION['editando'], saveData());
-					header('Location: ../view/comodosInseridos.php');
-				}
-
-				else{
-					$positionRemove = intval(substr($acao, -1));
-					if($positionRemove >= $_SESSION['adicionarTomada']){
-						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
-						header('Location: ../view/comodosInseridos.php');
-					}
-					else{
-						/*executa acao de remocao*/
-						if($_SESSION['adicionarTomada'] > 1){
-							$_SESSION['adicionarTomada'] -= 1;
-							$contador = $positionRemove;
-							for($alterarValores = $positionRemove + 1; $alterarValores <= $_SESSION['adicionarTomada']; $alterarValores += 1){
-								$_SESSION['valoresPreviosQuantidadeTomada'][$contador] = $_SESSION['valoresPreviosQuantidadeTomada'][$alterarValores];
-								$_SESSION['valoresPreviosTipoTomada'][$contador] = $_SESSION['valoresPreviosTipoTomada'][$alterarValores];
-								$contador += 1;
-							}
-						}
-						else
-							$_SESSION['mensagemErro'] = "Item não pode ser removido!";
-						$paginaMudanca = $_SESSION['paginaOrigem'];
-						$_SESSION['paginaOrigem'] = "../controller/controlador.php";
-						header('Location: '.$paginaMudanca);
-					}
-				}
-				if(!isset($positionRemove)){
-					unset($_SESSION['adicionarTomada']);
-					unset($_SESSION['valoresPreviosQuantidadeTomada'][0]);
-					$_SESSION['valoresPreviosTipoTomada'][0] = "Ferro de Passar";
-
-					unset($_SESSION['areaPrevia']);
-					unset($_SESSION['perimetroPrevio']);
-					unset($_SESSION['previoIdComodo']);
-				}
+			$positionRemove = intval(substr($acao, -1));
+			if($positionRemove >= $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> size()){
+				$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "Não encontrada tomada para remoção";
 			}
+			else{
+				/*executa acao de remocao*/
+				$quantidadeTomadas = $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> size();
+				if($quantidadeTomadas >= 0){
+					$valoresPreviosTipoTomada = $_SESSION['InserindoComodo'] -> getTomadasTipo();
+					$valoresPreviosQuantidadeTomada = $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo();
+					$contador = $positionRemove;
 
+					for($alterarValores = $positionRemove; $alterarValores < $quantidadeTomadas; $alterarValores += 1){
+						$valoresPreviosQuantidadeTomada -> set($contador, $valoresPreviosQuantidadeTomada -> get($alterarValores));
+						$valoresPreviosTipoTomada -> set($contador, $valoresPreviosTipoTomada -> get($alterarValores));
+						$contador += 1;
+					}
+					$valoresPreviosQuantidadeTomada -> removeIndex($alterarValores - 1);
+					$valoresPreviosTipoTomada -> removeIndex($alterarValores - 1);
+				}
+				else
+					$_SESSION['mensagemErro']['inserirComodos.php'] = "Tomada não pode ser removida!";
+			}
 		}
-
 	}
-
 ?>
