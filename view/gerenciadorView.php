@@ -44,7 +44,7 @@
 
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class = "navbar-header">
-			<a class = "navbar-brand" href = "#">Sistema Gerenciamento Voltagem Residencia</a>
+			<a class = "navbar-brand" href = "index.php">Sistema Gerenciamento Voltagem Residencia</a>
 		</div>
 
 		<div>

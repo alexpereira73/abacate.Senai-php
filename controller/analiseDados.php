@@ -1,4 +1,28 @@
 <?php
+
+	function analiseErro(){
+		$retornoBooleano = false;
+		if(htmlspecialchars($_POST['acaoRealizada']) == null){
+			$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "Comando Não encontrado";
+			$retornoBooleano = true;
+		}
+		else{
+			$acaoTomada = (htmlspecialchars($_POST['acaoRealizada']) != "Nova Tomada" && !is_numeric(substr(htmlspecialchars($_POST['acaoRealizada']), -1)) || htmlspecialchars($_POST['acaoRealizada']) == "Inserir Comodo" || htmlspecialchars($_POST['acaoRealizada']) == "Concluir");
+			if((htmlspecialchars($_POST['area'])) == null && $acaoTomada){
+				$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "O campo Area deve ser preenchido";
+				$retornoBooleano = true;
+			}
+			else if((htmlspecialchars($_POST['perimetro'])) == null && $acaoTomada){
+				$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "O campo Perimetro deve ser preenchido";
+				$retornoBooleano = true;
+			}
+			else if((htmlspecialchars($_POST['comodosId'])) == null && $acaoTomada){
+				$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "O campo Identificação Comodo deve ser selecionado";
+				$retornoBooleano = true;
+			}
+		}
+		return $retornoBooleano;
+	}
 	function saveData(){
 		$comodosAdicionados = new EspecificacoesComodo();
 		$quantidadesTomadas = new VetorLista();
@@ -60,6 +84,7 @@
 		}
 		else if($acao == "Concluir"){
 			$_SESSION['VetorLista'][1] -> set($_SESSION['editando'], saveData());
+			$_SESSION['paginaAnterior'] = "comodosInseridos.php";
 		}
 		else{
 			$positionRemove = intval(substr($acao, -1));
@@ -74,7 +99,7 @@
 					$valoresPreviosQuantidadeTomada = $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo();
 					$contador = $positionRemove;
 
-					for($alterarValores = $positionRemove; $alterarValores < $quantidadeTomadas; $alterarValores += 1){
+					for($alterarValores = $positionRemove + 1; $alterarValores < $quantidadeTomadas; $alterarValores += 1){
 						$valoresPreviosQuantidadeTomada -> set($contador, $valoresPreviosQuantidadeTomada -> get($alterarValores));
 						$valoresPreviosTipoTomada -> set($contador, $valoresPreviosTipoTomada -> get($alterarValores));
 						$contador += 1;

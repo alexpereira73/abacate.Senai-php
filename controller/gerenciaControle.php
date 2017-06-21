@@ -6,33 +6,27 @@
 	$_SESSION['mensagemSucesso'] = array("resultPage.php" => " ", "inserirComodos.php" => " ", "comodosInseridos.php" => " ", "edicao.php" => " ");
 	$_SESSION['mensagemErro'] = array("resultPage.php" => " ", "inserirComodos.php" => " ", "comodosInseridos.php" => " ", "edicao.php" => " ");
 	if($_SESSION['paginaAnterior'] == "inserirComodos.php" || $_SESSION['paginaAnterior'] == "edicao.php"){
-		if((htmlspecialchars($_POST['area'])) == null || (htmlspecialchars($_POST['perimetro'])) == null || (htmlspecialchars($_POST['comodosId'])) == null || htmlspecialchars($_POST['acaoRealizada']) == null){
-			if(htmlspecialchars($_POST['acaoRealizada']) != null){
-				if(htmlspecialchars($_POST['acaoRealizada']) != "Nova Tomada" || htmlspecialchars($_POST['acaoRealizada']) == "Inserir Comodo" || htmlspecialchars($_POST['acaoRealizada']) == "Concluir"){
-					$_SESSION['mensagemErro'][$_SESSION['paginaAnterior']] = "Todos os campos devem ser preenchidos";
-					header('Location: '."../view/gerenciadorView.php?selectPage=".($_SESSION['CodificacaoPaginas'] -> getChave($_SESSION['paginaAnterior'])) );
-				}
-			}
-		}
-		if(!is_numeric(htmlspecialchars($_POST['area'])))
+		require_once("analiseDados.php");
+
+		if(!is_numeric(htmlspecialchars($_POST['area'])) || htmlspecialchars($_POST['area']) == null)
 			$_SESSION['InserindoComodo'] -> setArea("");
 		else
 			$_SESSION['InserindoComodo'] -> setArea(htmlspecialchars($_POST['area']));
 
-		if(!is_numeric(htmlspecialchars($_POST['perimetro'])))
+		if(!is_numeric(htmlspecialchars($_POST['perimetro'])) || htmlspecialchars($_POST['perimetro']) == null)
 			$_SESSION['InserindoComodo'] -> setPerimetro("");
 		else
 			$_SESSION['InserindoComodo'] -> setPerimetro(htmlspecialchars($_POST['perimetro']));
 
 		$_SESSION['InserindoComodo'] -> setIdComodo(htmlspecialchars($_POST['comodosId']));
 
-		$acao = htmlspecialchars($_POST['acaoRealizada']);
+		if(!analiseErro()){
+			$acao = htmlspecialchars($_POST['acaoRealizada']);
 
-		require_once("analiseDados.php");
-		entreEdicaoInsercao($acao);
-		if($acao == "Inserir Comodo")
-			unset($_SESSION['InserindoComodo']);
-		
+			entreEdicaoInsercao($acao);
+			if($acao == "Inserir Comodo" || $acao == "Concluir")
+				unset($_SESSION['InserindoComodo']);
+		}
 	}
 	else if($_SESSION['paginaAnterior'] == "comodosInseridos.php"){
 		for($posicaoEdicao = 0; (!isset($_POST['editaDeleta_'.$posicaoEdicao])) && $posicaoEdicao < $_SESSION['VetorLista'][1] -> size(); $posicaoEdicao += 1);
@@ -54,9 +48,8 @@
 	else if($_SESSION['paginaAnterior'] == "resultPage.php"){
 		if(isset($_POST['actionResult'])){
 			if($_POST['actionResult'] == "Limpar Dados"){
-				session_destroy();
-				session_start();
-				$_SESSION['mensagemSucesso']["resultPage.php"] = "<div class='alert alert-success' role='alert' align = 'center'>"."Dados Deletados com Sucesso"."</div>";
+				unset($_SESSION['VetorLista']);
+				$_SESSION['mensagemSucesso']["resultPage.php"] = "Dados Deletados com Sucesso";
 			}
 		}
 	}
