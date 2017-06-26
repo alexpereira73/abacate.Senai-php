@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="css/fonts.css">	
 	<link rel="stylesheet" type="text/css" href="css/definitions.css">
+	<link rel="stylesheet" type="text/css" href="css/carousel_settings.css">
 	
 	<link rel="icon" href="imagens/favicon.ico">
 </head>
@@ -27,7 +28,7 @@
 		</ol>
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<img class="first-slide" src="data:imagens/gif;base64,download" alt="First slide">
+				<img class="first-slide" src="imagens/carousel_1.jpg" alt="First slide">
 				<div class="container">
 					<div class="carousel-caption">
 						<h1>Example headline.</h1>
@@ -38,7 +39,7 @@
 				</div>
 			</div>
 			<div class="item">
-				<img class="second-slide" src="data:image/gif;base64,download" alt="Second slide">
+				<img class="second-slide" src="imagens/carousel_2.jpg" alt="Second slide">
 				<div class="container">
 					<div class="carousel-caption">
 						<h1>Another example headline.</h1>
@@ -49,7 +50,7 @@
 				</div>
 			</div>
 			<div class="item">
-				<img class="third-slide" src="data:image/gif;base64,download" alt="Third slide">
+				<img class="third-slide" src="imagens/carousel_3.jpg" alt="Third slide">
 				<div class="container">
 					<div class="carousel-caption">
 						<h1>One more for good measure.</h1>
@@ -88,7 +89,7 @@
 				<p class="lead">Somos uma pequena equipe que trabalha no desenvolvimento de aplicações em web para auxiliar no trabalho de pessoas em certos momentos.</p>
 			</div>
 			<div class="col-md-5">
-				<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+				<img class="featurette-image img-responsive center-block" data-src="imagens/carousel_1.jpg" alt="Generic placeholder image">
 			</div>
 		</div>
 

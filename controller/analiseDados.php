@@ -46,14 +46,16 @@
 		/*Para quantidade de tomadas*/
 		if( !($_SESSION['InserindoComodo'] -> getTomadasTipo() -> isEmpty()) ){
 			$_SESSION['InserindoComodo'] -> setQuantidadeTomadasTipo(new VetorLista());
-			$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add(1);
+			if($proximaNao)
+				$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add(1);
 			foreach ($_POST['quantidade'] as $quantidadeEspecificas) {
 				$_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> add($quantidadeEspecificas);
 			}
 			
 			/*para tipo de tomadas*/
 			$_SESSION['InserindoComodo'] -> setTomadasTipo(new VetorLista());
-			$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add("Ferro de Passar");
+			if($proximaNao)
+				$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add("Ferro de Passar");
 			foreach ($_POST['tomadas'] as $tiposEspecificos) {
 				$_SESSION['InserindoComodo'] -> getTomadasTipo() -> add($tiposEspecificos);
 			}
@@ -95,6 +97,7 @@
 				/*executa acao de remocao*/
 				$quantidadeTomadas = $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo() -> size();
 				if($quantidadeTomadas >= 0){
+					adicionaDadosTemporarios(false);
 					$valoresPreviosTipoTomada = $_SESSION['InserindoComodo'] -> getTomadasTipo();
 					$valoresPreviosQuantidadeTomada = $_SESSION['InserindoComodo'] -> getQuantidadeTomadasTipo();
 					$contador = $positionRemove;
