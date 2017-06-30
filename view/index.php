@@ -31,8 +31,9 @@
 				<img class="first-slide" src="imagens/carousel_1.jpg" alt="First slide">
 				<div class="container">
 					<div class="carousel-caption">
-						<h1>Example headline.</h1>
-						<p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
+						<h1>cálculo de pontos de iluminação e tomadas de residências.</h1>
+						<p>
+calcule quantidades de tomadas, resistencias e melhor iluminação por area</p>
 						<p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a>
 						</p>
 					</div>
@@ -43,7 +44,9 @@
 				<div class="container">
 					<div class="carousel-caption">
 						<h1>Another example headline.</h1>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						<p>Nosso sistema pode ser usado por indústrias comércios e residências 
+ele consegue suprir a necessidade de todos.
+</p>
 						<p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
 						</p>
 					</div>
@@ -53,8 +56,8 @@
 				<img class="third-slide" src="imagens/carousel_3.jpg" alt="Third slide">
 				<div class="container">
 					<div class="carousel-caption">
-						<h1>One more for good measure.</h1>
-						<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+						<h1>uso esponsavel.</h1>
+						<p>com ajuda de nosso sistema será usado apenas o necessário evitando o desperdício de material e energia elétrica.</p>
 						<p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a>
 						</p>
 					</div>
@@ -89,7 +92,7 @@
 				<p class="lead">Somos uma pequena equipe que trabalha no desenvolvimento de aplicações em web para auxiliar no trabalho de pessoas em certos momentos.</p>
 			</div>
 			<div class="col-md-5">
-				<img class="featurette-image img-responsive center-block" data-src="imagens/carousel_1.jpg" alt="Generic placeholder image">
+				<img class="featurette-image img-responsive center-block" src="imagens/grupo.jpg" alt="Generic placeholder image">
 			</div>
 		</div>
 
@@ -102,7 +105,7 @@
 				<p class="lead">Na aba de Inserção de Comodos, você irá inserir os dados correspondentes aos comodos que deseja inserir, como seu tipo, tamanho, e tomadas especificas.</p>
 			</div>
 			<div class="col-md-5 col-md-pull-7">
-				<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+				<img class="featurette-image img-responsive center-block" src="imagens/uso_sistema.jpg"  alt="Generic placeholder image" 
 			</div>
 		</div>
 
